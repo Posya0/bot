@@ -20,6 +20,11 @@ else:
         users_data = json.load(f)
 f.close()
 
+def save():
+    with open('users_data.txt', 'w') as f:
+        json.dump(users_data, f)
+    f.close()
+
 def main():
     vk_session = vk_api.VkApi(
         token='1a30228cd685c3224500ad7eb8f4a74770adb0b2cc84e5760382f92bee0d6538d311e82a91ac97b1830fd')
@@ -35,6 +40,7 @@ def main():
 
             if (person not in users_data):
                 users_data.update({person: ["москва", "москва"]})
+                save()
                 send_mes('Привет, ' + vk.users.get(user_id=event.user_id)[0]['first_name'])
                 send_mes(instructions)
 
