@@ -14,7 +14,8 @@ def in_regions(reg):
         if reg.lower() in name.text.lower():
             path = x
             break
-
+    if path == soup:
+        return "не знаю такого региона"
     ans += "Регион: " + x.find("a").text + "\n"
     path = path.find("div", {"class": "p-1 col-7 row m-0"}).find("div", {"class": "p-1 col-4 col-sm-2"})
     s = path.text.split()
@@ -30,4 +31,4 @@ def in_regions(reg):
     ans += s[0] + ": " + s[1] + "\n"
     return ans
 
-print(in_regions('москва'))
+#print(in_regions('москва'))

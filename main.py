@@ -5,9 +5,9 @@ from vk_api.longpoll import VkLongPoll, VkEventType
 from vk_api.utils import get_random_id
 from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 
+from corona import *
 
 instructions = """ инструкция"""
-
 
 f = open('users_data.txt', 'r')
 s = f.read()
@@ -20,10 +20,12 @@ else:
         users_data = json.load(f)
 f.close()
 
+
 def save():
     with open('users_data.txt', 'w') as f:
         json.dump(users_data, f)
     f.close()
+
 
 def main():
     vk_session = vk_api.VkApi(
@@ -38,7 +40,7 @@ def main():
         if event.type == VkEventType.MESSAGE_NEW and event.text and event.to_me:
             person = str(event.user_id)
 
-            if (person not in users_data):
+            if person not in users_data:
                 users_data.update({person: ["москва", "москва"]})
                 save()
                 send_mes('Привет, ' + vk.users.get(user_id=event.user_id)[0]['first_name'])
@@ -51,6 +53,16 @@ def main():
             elif event.text == "?":
                 send_mes(instructions)
 
+            elif event.text.lower().startswith("корона"):
+                s = event.text.lower()
+                s = s.split()
+                if len(s) == 2:
+                    if s[1].lower() == 'россия':
+                        print('не сделано')
+                    elif s[1].lower() == 'мир':
+                        print('не сделано')
+                    else:
+                        send_mes(in_regions(s[1]))
             else:
                 send_mes('Неопознанная команда')
 
