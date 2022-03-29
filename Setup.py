@@ -1,4 +1,7 @@
 from setuptools import setup
+from sphinx.setup_command import BuildDoc
+
+cmdclass = {'build_sphinx': BuildDoc}
 
 setup(
     name='bot',
@@ -14,5 +17,12 @@ setup(
     ],
     package_data={
         'bot': ['znaki_pictures/*']
-    }
+    },
+    cmdclass=cmdclass,
+    command_options={
+        'build_sphinx': {
+            'project': ('setup.py', 'bot'),
+            'version': ('setup.py', '1.0.0'),
+            'release': ('setup.py', '1.0.0'),
+            'source_dir': ('setup.py', './bot')}},
 )
