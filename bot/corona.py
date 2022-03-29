@@ -7,7 +7,6 @@ def get_new(region, ans):
     ans += s[0] + ": " + s[1] + "\n"
     return ans
 
-
 def in_regions(reg):
     """статистика короны в регионах """
     page = requests.get("https://coronavirusstat.ru")

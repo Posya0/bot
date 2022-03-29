@@ -7,20 +7,6 @@ from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 
 from corona import *
 
-instructions = """ инструкция"""
-
-f = open('users_data.txt', 'r')
-s = f.read()
-f.close()
-if s == '':
-    print("?")
-    users_data = {}
-else:
-    with open('users_data.txt', 'r') as f:
-        users_data = json.load(f)
-f.close()
-
-
 def save():
     """обновление данных о пользователях"""
     with open('users_data.txt', 'w') as f:
@@ -70,4 +56,16 @@ def main():
 
 
 if __name__ == '__main__':
+    instructions = """ инструкция"""
+
+    f = open('users_data.txt', 'r')
+    s = f.read()
+    f.close()
+    if s == '':
+        print("?")
+        users_data = {}
+    else:
+        with open('users_data.txt', 'r') as f:
+            users_data = json.load(f)
+    f.close()
     main()
