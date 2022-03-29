@@ -9,7 +9,7 @@ setup(
         "bs4~=0.0.1",
         "beautifulsoup4~=4.9.3",
         "Pillow~=8.2.0",
-        "json~=2.5.0",
+        "geojson~=2.5.0",
         "vk_api~=11.9.3"
     ],
     package_data={
