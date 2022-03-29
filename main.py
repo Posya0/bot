@@ -22,12 +22,14 @@ f.close()
 
 
 def save():
+    """обновление данных о пользователях"""
     with open('users_data.txt', 'w') as f:
         json.dump(users_data, f)
     f.close()
 
 
 def main():
+    """ основная функция"""
     vk_session = vk_api.VkApi(
         token='1a30228cd685c3224500ad7eb8f4a74770adb0b2cc84e5760382f92bee0d6538d311e82a91ac97b1830fd')
     vk = vk_session.get_api()

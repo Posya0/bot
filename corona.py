@@ -1,8 +1,15 @@
 import requests
 from bs4 import BeautifulSoup
 
+def get_new(region, ans):
+    """ в строку добавляются новые данные со статистикой по региону """
+    s = region.text.split()
+    ans += s[0] + ": " + s[1] + "\n"
+    return ans
+
 
 def in_regions(reg):
+    """статистика короны в регионах """
     page = requests.get("https://coronavirusstat.ru")
     soup = BeautifulSoup(page.text, "html.parser")
     data_sost = soup.find("h6", {"class": "text-muted"}).find("strong")
@@ -18,17 +25,11 @@ def in_regions(reg):
         return "не знаю такого региона"
     ans += "Регион: " + x.find("a").text + "\n"
     path = path.find("div", {"class": "p-1 col-7 row m-0"}).find("div", {"class": "p-1 col-4 col-sm-2"})
-    s = path.text.split()
-    ans += s[0] + ": " + s[1] + "\n"
+    ans = get_new(path, ans)
     path = path.find_next_sibling()
-    s = path.text.split()
-    ans += s[0] + ": " + s[1] + "\n"
+    ans = get_new(path, ans)
     path = path.find_next_sibling()
-    s = path.text.split()
-    ans += s[0] + ": " + s[1] + "\n"
+    ans = get_new(path, ans)
     path = path.find_next_sibling()
-    s = path.text.split()
-    ans += s[0] + ": " + s[1] + "\n"
+    ans = get_new(path, ans)
     return ans
-
-#print(in_regions('москва'))
