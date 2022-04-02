@@ -32,3 +32,18 @@ def in_regions(reg):
     path = path.find_next_sibling()
     ans = get_new(path, ans)
     return ans
+
+def in_russia():
+    """статистика по коронавирусу в России"""
+    page = requests.get("https://coronavirusstat.ru")
+    soup = BeautifulSoup(page.text, "html.parser")
+    way = soup.find("div", {"class": "row justify-content-md-center"}).find_all("div",
+                                                                                {"class": "col col-6 col-md-3 pt-4"})
+    data_sost = soup.find("h6", {"class": "text-muted"}).find("strong")
+    ans = "По состоянию на " + data_sost.text + ":\n"
+    for x in way:
+        s = x.text.split()
+        ans += s[6] + ": " + s[4] + " " + s[5] + "(" + s[0] + " сегодня)\n"
+    return ans
+
+print(in_russia())
