@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import pandas as pd
 
 page = requests.get("https://coronavirusstat.ru")
 soup = BeautifulSoup(page.text, "html.parser")
@@ -45,3 +46,18 @@ def in_russia():
     return ans
 
 
+def in_world():
+    """статистика по коронавирус в мире"""
+    url_world = 'https://index.minfin.com.ua/reference/coronavirus/'
+    header = {
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.75 Safari/537.36",
+        "X-Requested-With": "XMLHttpRequest"
+    }
+    r = requests.get(url_world, headers=header)
+    df = (pd.read_html(r.text))[0]
+    ans = "По состоянию на " + data_sost.text + ":\n"
+    ans+= "Всего случаев: "+ df.iat[0,1] + "\n"
+    ans += "Умерло: " + df.iat[1, 1] + "\n"
+    ans += "Вылечено: " + df.iat[0, 1] + "\n"
+    ans += "Активные: " + df.iat[0, 1]
+    return ans
