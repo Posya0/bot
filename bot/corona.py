@@ -1,6 +1,8 @@
+import datetime
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
+from matplotlib import pyplot as plt
 
 page = requests.get("https://coronavirusstat.ru")
 soup = BeautifulSoup(page.text, "html.parser")
@@ -60,4 +62,21 @@ def in_world():
     ans += "Умерло: " + df.iat[1, 1] + "\n"
     ans += "Вылечено: " + df.iat[0, 1] + "\n"
     ans += "Активные: " + df.iat[0, 1]
+
+    url = url_world + (str(datetime.date.today()))[:-3] + '/'
+    print(url)
+    r = requests.get(url, headers=header)
+
+    df = (pd.read_html(r.text))[0]
+    df.rename(columns={'Всегозара­жений': 'Всего случаев', 'Смер­тельныеслучаи': 'Умерло',
+                       'Выздоро­вевшие': 'Вылечено', 'Боле­ющие': 'Активных'}, inplace=True)
+
+    fig = df.plot(x="Дата", y=["Всего случаев", "Умерло", "Вылечено", "Активных"])
+    fig.set_ylabel('кол-во, [млн] ')
+    plt.title('Статистика за месяц', fontsize=10)
+
+    pic = fig.figure
+    pic.savefig('images/covid.png')
     return ans
+
+print(in_world())
