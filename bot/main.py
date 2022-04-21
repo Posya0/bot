@@ -1,4 +1,6 @@
 import json
+import os
+
 import vk_api
 from vk_api import VkUpload
 from vk_api.longpoll import VkLongPoll, VkEventType
@@ -6,6 +8,39 @@ from vk_api.utils import get_random_id
 from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 
 from corona import *
+
+instructions = """
+Приветик)))
+Я твой бот-помошник.
+
+Перед началом использования бота, пожалуйста, внесите данные о себе:
+"Город *Ваш город*"
+"Знак *Ваш знак зодиака*"
+
+Чтобы вызвать меню, напишите "привет", "начать" или "меню".
+
+-Кнопка "Обо мне" выведет Ваш знак зодиака  город, используйте это, чтобы убедится в правильности настроек.
+
+-Кнопка "Корона" откроет для вас раздел статистики по коронавирусу:
+    -"мой регион" - статитика на сегодня по вашему региону
+    -"Россия" - статистика по России на 10 дней
+    -"мир" - ...
+    -"МЕНЮ" - вернет вас в основное меню
+
+? - вызов инструкции
+"""
+
+f = open('users_data.txt', 'r')
+s = f.read()
+f.close()
+if s == '':
+    print("?")
+    users_data = {}
+else:
+    with open('users_data.txt', 'r') as f:
+        users_data = json.load(f)
+f.close()
+
 
 def save():
     """обновление данных о пользователях"""
@@ -21,51 +56,112 @@ def main():
     vk = vk_session.get_api()
     longpoll = VkLongPoll(vk_session)
 
+    """клавиатура меню"""
+    kmenu = VkKeyboard(one_time=True)
+    kmenu.add_button("Погода", color=VkKeyboardColor.POSITIVE)
+    kmenu.add_button("Корона", color=VkKeyboardColor.POSITIVE)
+    kmenu.add_line()
+    kmenu.add_button("Гороскоп", color=VkKeyboardColor.POSITIVE)
+    kmenu.add_button("Обо мне", color=VkKeyboardColor.PRIMARY)
+
+    """клавиатура корона"""
+    kkorona = VkKeyboard(one_time=True)
+    kkorona.add_button("Мой регион", color=VkKeyboardColor.POSITIVE)
+    kkorona.add_button("Россия", color=VkKeyboardColor.POSITIVE)
+    kkorona.add_line()
+    kkorona.add_button("Мир", color=VkKeyboardColor.POSITIVE)
+    kkorona.add_button("МЕНЮ", color=VkKeyboardColor.PRIMARY)
+
+    """клавиатура гороскоп"""
+    khoros = VkKeyboard(one_time=True)
+    khoros.add_button("На сегодня ", color=VkKeyboardColor.POSITIVE)
+    khoros.add_button("На неделю ", color=VkKeyboardColor.POSITIVE)
+    khoros.add_line()
+    khoros.add_button("На месяц ", color=VkKeyboardColor.POSITIVE)
+    khoros.add_button("МЕНЮ", color=VkKeyboardColor.PRIMARY)
+
+    """клавиатура погода"""
+    kweather = VkKeyboard(one_time=True)
+    kweather.add_button("сейчас", color=VkKeyboardColor.POSITIVE)
+    kweather.add_button("завтра", color=VkKeyboardColor.POSITIVE)
+    kweather.add_line()
+    kweather.add_button("на 5 дней", color=VkKeyboardColor.POSITIVE)
+    kweather.add_button("МЕНЮ", color=VkKeyboardColor.PRIMARY)
+
     for event in longpoll.listen():
-        def send_mes(mes):
-            vk.messages.send(user_id=event.user_id, random_id=get_random_id(), message=mes)
+        def send_mes(mes, keyboard=None, attachment=None):
+            """функция отправки сообщения"""
+            if keyboard: keyboard = keyboard.get_keyboard()
+            if attachment: attachment = ','.join(attachments)
+            vk.messages.send(user_id=event.user_id, random_id=get_random_id(), message=mes, keyboard=keyboard,
+                             attachment=attachment)
 
         if event.type == VkEventType.MESSAGE_NEW and event.text and event.to_me:
             person = str(event.user_id)
 
-            if person not in users_data:
-                users_data.update({person: ["москва", "москва"]})
+            """если новый пользователь"""
+            if (person not in users_data):
+                users_data.update({person: ["москва", "овен"]})
                 save()
                 send_mes('Привет, ' + vk.users.get(user_id=event.user_id)[0]['first_name'])
-                send_mes(instructions)
+                send_mes(instructions, keyboard=kmenu)
 
             elif event.text.lower() == 'привет' or event.text.lower() == 'начать' or event.text.lower() == 'меню':
                 send_mes('Привет, ' + vk.users.get(user_id=event.user_id)[0]['first_name'])
-                send_mes(instructions)
+                send_mes(instructions, keyboard=kmenu)
 
             elif event.text == "?":
-                send_mes(instructions)
+                send_mes(instructions, keyboard=kmenu)
 
-            elif event.text.lower().startswith("корона"):
+
+
+            elif event.text.lower() == "обо мне":
+                send_mes("Я думаю, что ваш город - " + users_data[person][0] + ", а ваш знак зодиака - " +
+                         users_data[person][1])
+
+            elif event.text.lower().startswith("город "):
                 s = event.text.lower()
                 s = s.split()
-                if len(s) == 2:
-                    if s[1].lower() == 'россия':
-                        print('не сделано')
-                    elif s[1].lower() == 'мир':
-                        print('не сделано')
-                    else:
-                        send_mes(in_regions(s[1]))
+                if len(s) == 2 and is_city(s[1]):
+                    users_data[person][0] = s[1].title()
+                    save()
+                    send_mes("Ваш город - " + users_data[person][0] + ". Я запомнил!")
+                else:
+                    send_mes("Я не знаю такого города")
+
+            elif event.text.lower().startswith("знак "):
+                pass
+
+
+            elif event.text.lower() == "корона":
+                send_mes("Статистика по Коронавирусу ", keyboard=kkorona)
+
+            elif event.text.lower() == "россия":
+                res = in_russia()
+                upload = VkUpload(vk_session)
+                attachments = []
+                image = 'files/covid.png'
+                photo = upload.photo_messages(photos=image)[0]
+                attachments.append("photo{}_{}".format(photo["owner_id"], photo["id"]))
+                send_mes(res, attachment=','.join(attachments))
+                os.remove(image)
+
+            elif event.text.lower() == "мой регион":
+                send_mes(in_regions(users_data[person][0]))
+
+            elif event.text.lower() == "мир":
+                res = in_world()
+                upload = VkUpload(vk_session)
+                attachments = []
+                image = 'files/covid.png'
+                photo = upload.photo_messages(photos=image)[0]
+                attachments.append("photo{}_{}".format(photo["owner_id"], photo["id"]))
+                send_mes(res, attachment=','.join(attachments))
+                os.remove(image)
+
             else:
                 send_mes('Неопознанная команда')
 
 
 if __name__ == '__main__':
-    instructions = """ инструкция"""
-
-    f = open('users_data.txt', 'r')
-    s = f.read()
-    f.close()
-    if s == '':
-        print("?")
-        users_data = {}
-    else:
-        with open('users_data.txt', 'r') as f:
-            users_data = json.load(f)
-    f.close()
     main()
