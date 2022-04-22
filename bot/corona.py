@@ -57,7 +57,7 @@ def grafic(url_end):
     """сохраняем график"""
 
     pic = fig.figure
-    pic.savefig('files/covid.png')
+    pic.savefig('images/covid.png')
 
 
 def find_region(city):

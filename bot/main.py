@@ -140,7 +140,7 @@ def main():
                 res = in_russia()
                 upload = VkUpload(vk_session)
                 attachments = []
-                image = 'files/covid.png'
+                image = 'images/covid.png'
                 photo = upload.photo_messages(photos=image)[0]
                 attachments.append("photo{}_{}".format(photo["owner_id"], photo["id"]))
                 send_mes(res, attachment=','.join(attachments))
@@ -153,7 +153,7 @@ def main():
                 res = in_world()
                 upload = VkUpload(vk_session)
                 attachments = []
-                image = 'files/covid.png'
+                image = 'images/covid.png'
                 photo = upload.photo_messages(photos=image)[0]
                 attachments.append("photo{}_{}".format(photo["owner_id"], photo["id"]))
                 send_mes(res, attachment=','.join(attachments))
