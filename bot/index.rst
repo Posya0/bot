@@ -30,6 +30,10 @@ Functions
 	:members:
 	:undoc-members:
 	
-.. automodule:: bot.bot_goroskop
+.. automodule:: bot.goroskop
+	:members:
+	:undoc-members:
+
+.. automodule:: bot.pogoda
 	:members:
 	:undoc-members:

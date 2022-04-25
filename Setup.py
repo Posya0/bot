@@ -13,7 +13,8 @@ setup(
         "beautifulsoup4~=4.9.3",
         "Pillow~=8.2.0",
         "geojson~=2.5.0",
-        "vk_api~=11.9.3"
+        "vk_api~=11.9.3",
+        "PIL"
     ],
     package_data={
         'bot': ['znaki_pictures/*']

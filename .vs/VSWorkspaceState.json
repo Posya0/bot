@@ -1,13 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\bot",
-    "\\doc",
-    "\\_build",
-    "\\_build\\html",
-    "\\_build\\html\\.doctrees",
-    "\\_build\\html\\.doctrees\\doc"
+    "\\bot"
   ],
-  "SelectedNode": "\\_build\\html\\.doctrees\\doc\\index.doctree",
+  "SelectedNode": "\\README.md",
   "PreviewInSolutionExplorer": false
 }

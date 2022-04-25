@@ -1,6 +1,8 @@
+README.md
 Setup.py
 setup.py
 bot/bot_goroskop.py
+bot/conf.py
 bot/corona.py
 bot/main.py
 bot.egg-info/PKG-INFO

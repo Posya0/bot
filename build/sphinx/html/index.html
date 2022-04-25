@@ -44,24 +44,31 @@
 <li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
 </section>
-<section id="module-bot.main">
-<span id="functions"></span><h1>Functions<a class="headerlink" href="#module-bot.main" title="Permalink to this headline">¶</a></h1>
-<dl class="py function">
-<dt class="sig sig-object py" id="bot.main.main">
-<span class="sig-prename descclassname"><span class="pre">bot.main.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bot.main.main" title="Permalink to this definition">¶</a></dt>
-<dd><p>основная функция</p>
+<section id="module-bot.corona">
+<span id="functions"></span><h1>Functions<a class="headerlink" href="#module-bot.corona" title="Permalink to this headline">¶</a></h1>
+<dl class="py data">
+<dt class="sig sig-object py" id="bot.corona.data_sost">
+<span class="sig-prename descclassname"><span class="pre">bot.corona.</span></span><span class="sig-name descname"><span class="pre">data_sost</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;strong&gt;25</span> <span class="pre">апреля</span> <span class="pre">10:45&lt;/strong&gt;</span></em><a class="headerlink" href="#bot.corona.data_sost" title="Permalink to this definition">¶</a></dt>
+<dd><p>сайт блокирует доступ(ошибка 403),
+поэтому мы “притворимся” браузером</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="bot.main.save">
-<span class="sig-prename descclassname"><span class="pre">bot.main.</span></span><span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bot.main.save" title="Permalink to this definition">¶</a></dt>
-<dd><p>обновление данных о пользователях</p>
+<dt class="sig sig-object py" id="bot.corona.find_region">
+<span class="sig-prename descclassname"><span class="pre">bot.corona.</span></span><span class="sig-name descname"><span class="pre">find_region</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">city</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bot.corona.find_region" title="Permalink to this definition">¶</a></dt>
+<dd><p>определить регион по городу</p>
 </dd></dl>
 
-<span class="target" id="module-bot.corona"></span><dl class="py function">
+<dl class="py function">
 <dt class="sig sig-object py" id="bot.corona.get_new">
 <span class="sig-prename descclassname"><span class="pre">bot.corona.</span></span><span class="sig-name descname"><span class="pre">get_new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">region</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ans</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bot.corona.get_new" title="Permalink to this definition">¶</a></dt>
 <dd><p>в строку добавляются новые данные со статистикой по региону</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bot.corona.grafic">
+<span class="sig-prename descclassname"><span class="pre">bot.corona.</span></span><span class="sig-name descname"><span class="pre">grafic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url_end</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bot.corona.grafic" title="Permalink to this definition">¶</a></dt>
+<dd><p>строим график</p>
 </dd></dl>
 
 <dl class="py function">
@@ -70,7 +77,74 @@
 <dd><p>статистика короны в регионах</p>
 </dd></dl>
 
-<span class="target" id="module-bot.bot_goroskop"></span></section>
+<dl class="py function">
+<dt class="sig sig-object py" id="bot.corona.in_russia">
+<span class="sig-prename descclassname"><span class="pre">bot.corona.</span></span><span class="sig-name descname"><span class="pre">in_russia</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bot.corona.in_russia" title="Permalink to this definition">¶</a></dt>
+<dd><p>статистика по коронавирусу в России</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bot.corona.in_world">
+<span class="sig-prename descclassname"><span class="pre">bot.corona.</span></span><span class="sig-name descname"><span class="pre">in_world</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bot.corona.in_world" title="Permalink to this definition">¶</a></dt>
+<dd><p>статистика по коронавирус в мире</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bot.corona.is_city">
+<span class="sig-prename descclassname"><span class="pre">bot.corona.</span></span><span class="sig-name descname"><span class="pre">is_city</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">city</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bot.corona.is_city" title="Permalink to this definition">¶</a></dt>
+<dd><p>Проверяем, существует ли город</p>
+</dd></dl>
+
+<span class="target" id="module-bot.goroskop"></span><span class="target" id="module-bot.pogoda"></span><dl class="py function">
+<dt class="sig sig-object py" id="bot.pogoda.deg_into_word">
+<span class="sig-prename descclassname"><span class="pre">bot.pogoda.</span></span><span class="sig-name descname"><span class="pre">deg_into_word</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">deg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bot.pogoda.deg_into_word" title="Permalink to this definition">¶</a></dt>
+<dd><p>определение направления ветра</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bot.pogoda.get_weather_for_5">
+<span class="sig-prename descclassname"><span class="pre">bot.pogoda.</span></span><span class="sig-name descname"><span class="pre">get_weather_for_5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">city</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bot.pogoda.get_weather_for_5" title="Permalink to this definition">¶</a></dt>
+<dd><p>получение строки с погодой на 5 дней</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bot.pogoda.get_weather_for_day">
+<span class="sig-prename descclassname"><span class="pre">bot.pogoda.</span></span><span class="sig-name descname"><span class="pre">get_weather_for_day</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">city</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bot.pogoda.get_weather_for_day" title="Permalink to this definition">¶</a></dt>
+<dd><p>получение строки с погодой на завтра</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bot.pogoda.get_weather_for_now">
+<span class="sig-prename descclassname"><span class="pre">bot.pogoda.</span></span><span class="sig-name descname"><span class="pre">get_weather_for_now</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">city</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bot.pogoda.get_weather_for_now" title="Permalink to this definition">¶</a></dt>
+<dd><p>получение строки с погодой на данный момент</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bot.pogoda.get_weather_for_time">
+<span class="sig-prename descclassname"><span class="pre">bot.pogoda.</span></span><span class="sig-name descname"><span class="pre">get_weather_for_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bot.pogoda.get_weather_for_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>получение строки и картинки о погоде в определенное время</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="bot.pogoda.key">
+<span class="sig-prename descclassname"><span class="pre">bot.pogoda.</span></span><span class="sig-name descname"><span class="pre">key</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'6d3f1f18d553999a8ac72752aa8e780e'</span></em><a class="headerlink" href="#bot.pogoda.key" title="Permalink to this definition">¶</a></dt>
+<dd><p>словарь для нахождения словесного описания силы ветра</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bot.pogoda.unit_img">
+<span class="sig-prename descclassname"><span class="pre">bot.pogoda.</span></span><span class="sig-name descname"><span class="pre">unit_img</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bot.pogoda.unit_img" title="Permalink to this definition">¶</a></dt>
+<dd><p>в блок для 4 или 5 фоток(img), добавляется новая картинка
+ее позиция определяется ее порядковым номером(numer)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bot.pogoda.wind_type">
+<span class="sig-prename descclassname"><span class="pre">bot.pogoda.</span></span><span class="sig-name descname"><span class="pre">wind_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wind</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bot.pogoda.wind_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>функция для нахождения словесного описания силы ветра</p>
+</dd></dl>
+
+</section>
 
 
           </div>
