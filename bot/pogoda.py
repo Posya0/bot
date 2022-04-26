@@ -42,7 +42,7 @@ def get_weather_for_now(city):
 
     """сохраняем картинку"""
 
-    file_name = 'files/img_for_now.png'
+    file_name = 'img_for_now.png'
     if os.path.exists(file_name) == False:
         with open(file_name, 'wb') as f:
             f.write(image.content)
@@ -131,7 +131,7 @@ def get_weather_for_5(city):
 
     """сохраняем  заполненый блок"""
 
-    img.save('files/img_for_5.png')
+    img.save('img_for_5.png')
 
     """удаляем "одиночные" картинки"""
 
@@ -229,7 +229,7 @@ def get_weather_for_day(city):
 
     """сохраняем  заполненый блок"""
 
-    img.save('files/img_for_day.png')
+    img.save('img_for_day.png')
 
     """удаляем ненужные фото"""
 

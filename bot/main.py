@@ -8,6 +8,8 @@ from vk_api.utils import get_random_id
 from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 
 from corona import *
+from pogoda import *
+from goroskop import *
 
 instructions = """
 Приветик)))
@@ -24,7 +26,20 @@ instructions = """
 -Кнопка "Корона" откроет для вас раздел статистики по коронавирусу:
     -"мой регион" - статитика на сегодня по вашему региону
     -"Россия" - статистика по России на 10 дней
-    -"мир" - ...
+    -"мир" - статистика по миру на 10 дней
+    -"МЕНЮ" - вернет вас в основное меню
+    
+    
+-Кнопка "Погода" откроет для вас раздел прогноза погоды:
+    -"сейчас" - погода в вашем городе в данный момент
+    -"завтра" - погода в вашем городе завтра
+    -"на 5 дней" - краткий прогноз погоды на 5 дней
+    -"МЕНЮ" - вернет вас в основное меню
+
+-Кнопка "Гороскоп" откроет для вас раздел гороскопа:
+    -"на сегодня" - ваш гороскоп на сегодня
+    -"на неделю" - ваш гороскоп на неделю
+    -"на месяц" - ваш гороскоп на текущий месяц
     -"МЕНЮ" - вернет вас в основное меню
 
 ? - вызов инструкции
@@ -107,8 +122,7 @@ def main():
                 send_mes(instructions, keyboard=kmenu)
 
             elif event.text.lower() == 'привет' or event.text.lower() == 'начать' or event.text.lower() == 'меню':
-                send_mes('Привет, ' + vk.users.get(user_id=event.user_id)[0]['first_name'])
-                send_mes(instructions, keyboard=kmenu)
+                send_mes('Привет, ' + vk.users.get(user_id=event.user_id)[0]['first_name'],  keyboard=kmenu)
 
             elif event.text == "?":
                 send_mes(instructions, keyboard=kmenu)
@@ -117,7 +131,7 @@ def main():
 
             elif event.text.lower() == "обо мне":
                 send_mes("Я думаю, что ваш город - " + users_data[person][0] + ", а ваш знак зодиака - " +
-                         users_data[person][1])
+                         users_data[person][1].title())
 
             elif event.text.lower().startswith("город "):
                 s = event.text.lower()
@@ -130,7 +144,14 @@ def main():
                     send_mes("Я не знаю такого города")
 
             elif event.text.lower().startswith("знак "):
-                pass
+                s = event.text.lower()
+                s = s.split()
+                if len(s) == 2 and is_zhak(s[1]):
+                    users_data[person][1] = s[1].title()
+                    save()
+                    send_mes("Ваш знак зодиака - " + users_data[person][1].title() + ". Я запомнил!")
+                else:
+                    send_mes("Я не знаю такого знака")
 
 
             elif event.text.lower() == "корона":
@@ -158,6 +179,79 @@ def main():
                 attachments.append("photo{}_{}".format(photo["owner_id"], photo["id"]))
                 send_mes(res, attachment=','.join(attachments))
                 os.remove(image)
+
+            elif event.text.lower() == "погода":
+                send_mes("Погода " + users_data[person][0], keyboard=kweather)
+
+            elif event.text.lower() == "на 5 дней":
+                res = get_weather_for_5(users_data[person][0])
+                upload = VkUpload(vk_session)
+                attachments = []
+                image = 'img_for_5.png'
+                photo = upload.photo_messages(photos=image)[0]
+                attachments.append("photo{}_{}".format(photo["owner_id"], photo["id"]))
+                send_mes(res, attachment=','.join(attachments))
+                os.remove(image)
+
+            elif event.text.lower() == "сейчас":
+                res = get_weather_for_now(users_data[person][0])
+                upload = VkUpload(vk_session)
+                attachments = []
+                image = 'img_for_now.png'
+                photo = upload.photo_messages(photos=image)[0]
+                attachments.append("photo{}_{}".format(photo["owner_id"], photo["id"]))
+                send_mes(res, attachment=','.join(attachments))
+                os.remove(image)
+
+            elif event.text.lower() == "завтра":
+                res = get_weather_for_day(users_data[person][0])
+                upload = VkUpload(vk_session)
+                attachments = []
+                image = 'img_for_day.png'
+                photo = upload.photo_messages(photos=image)[0]
+                attachments.append("photo{}_{}".format(photo["owner_id"], photo["id"]))
+                send_mes(res, attachment=','.join(attachments))
+                os.remove(image)
+
+
+            elif event.text.lower() == "гороскоп":
+                send_mes("Гороскоп ", keyboard=khoros)
+
+            elif event.text.lower() == "на сегодня":
+                res = goroskop_(users_data[person][1],'Сегодня')
+
+                image = 'znaki_pictures/' + znak[users_data[person][1].lower()] + '.jpg'
+                upload = VkUpload(vk_session)
+                attachments = []
+
+                photo = upload.photo_messages(photos=image)[0]
+                attachments.append("photo{}_{}".format(photo["owner_id"], photo["id"]))
+                send_mes(res, attachment=','.join(attachments))
+
+
+            elif event.text.lower() == "на неделю":
+                res = goroskop_(users_data[person][1],'Неделя')
+
+                image = 'znaki_pictures/' + znak[users_data[person][1].lower()] + '.jpg'
+                upload = VkUpload(vk_session)
+                attachments = []
+
+                photo = upload.photo_messages(photos=image)[0]
+                attachments.append("photo{}_{}".format(photo["owner_id"], photo["id"]))
+                send_mes(res, attachment=','.join(attachments))
+
+
+            elif event.text.lower() == "на месяц":
+                res = goroskop_(users_data[person][1],'Месяц')
+
+                image = 'znaki_pictures/' + znak[users_data[person][1].lower()] + '.jpg'
+                upload = VkUpload(vk_session)
+                attachments = []
+
+                photo = upload.photo_messages(photos=image)[0]
+                attachments.append("photo{}_{}".format(photo["owner_id"], photo["id"]))
+                send_mes(res, attachment=','.join(attachments))
+
 
             else:
                 send_mes('Неопознанная команда')
